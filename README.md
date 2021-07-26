@@ -1,1 +1,1 @@
-# QTL-mapping-Z.-tritici
+# QTL_Mapping_Z.tritici
