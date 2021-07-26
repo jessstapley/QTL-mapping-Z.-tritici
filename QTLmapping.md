@@ -37,3 +37,16 @@ out_pgL <- scan1(pr, pheno=mapthis$pheno[,-1], kinship = kinship_loco, addcovar 
 operm <- scan1perm(pr, pheno=mapthis$pheno[,-1], kinship = kinship_loco, addcovar = NULL, model = "normal", n_perm = 1000, cores=4)
 
 ```
+# Identify QTL peaks and intervals
+
+To identify signficance QTL peaks and thier intervals I looped through each phenotypic trait (ph.list - is a list of all phenotypic traits). The lod threshold (alpha = 0.01) was extracted from permuation results (operm) and then I used the ```find_peaks``` function to identify the QTL exceeding the lod threshold.
+
+```
+for (j in ph.list){
+    out_pgL <- scan1(pr, pheno=mapthis$pheno[,j], kinship = kinship_loco, addcovar = NULL, model = "normal")
+    lodT <- as.data.frame(summary(operm, alpha=0.01))[j]
+    
+  lod.pgL <- find_peaks(out_pgL, map, threshold=lodT , drop=1.5)
+  }
+  
+```
