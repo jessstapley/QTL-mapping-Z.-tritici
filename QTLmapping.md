@@ -87,4 +87,30 @@ for (i in 1:length(lod.pgL$lodindex)) {
       }
 ```
 
-# Identify the genes in that interval
+# Identify the genes in a QTL interval
+Using the physical positions for the QTL intervals I extracted a list of the functional elements in that interval (e.g. genes, exon, cds, etc) from the .gff files. First I read the .gff file into R and then I looped through each QTL peak (and corresponding interval) to identify a list of functional elements. Two tables were created and exported -  one containing just the genes within an interval and the other contained all functional elements in that interval. Also a new file containing each QTL peak, the interval infromation and the number of genes was created (newdat).
+
+
+```
+gff.1a <- read.delim("path/ref.gff3", comment.char = "#", header=FALSE)
+names(gff.1a) <- c("chr", "source", "type", "start", "end", "score", "strand", "frame", "attributes")
+gff.1a <- droplevels(subset(gff.1a, gff.1a$type!="chromosome")) # remove the line describing chromosome
+
+dat <- read.csv("data/qtl_peak_interval.csv") # file containting all QTL peaks and the 95% bayes confidence intervals (bci)
+
+newdat <- NULL
+    for (j in 1:length(dat[,1])){
+    dd <- dat[j,]
+    gff.chr <- droplevels(subset(gff.1a, gff.1a$chr==dd$chr))
+    
+    ggb <-  subset(gff.chr, gff.chr$start > dd$bci95_lo_bp)
+    ggbb <-  subset(ggb, ggb$end < dd$bci95_hi_bp) 
+    genebb <- droplevels(subset(ggbb, ggbb$type=="gene"))
+    write.csv(genebb, paste0("out_bci_genes_1a/", dd$trait, "_", dd$marker, "_gene.csv"), row.names=FALSE, quote=FALSE)
+    write.csv(ggbb, paste0("out_bci_allann_1a/", dd$trait,  "_", dd$marker, "_all.csv"), row.names=FALSE, quote=FALSE)
+    
+    dd$n.bci.genes <- length(genebb[,1])
+    newdat <- rbind(newdat, dd)
+  }
+
+´´´
