@@ -1,9 +1,9 @@
 # QTL mapping
 
-QTL mapping was perfomred with the R package qtl2 v2_0.24. I followed the R/qtl2 User Guide (https://kbroman.org/qtl2/assets/vignettes/user_guide.html) and the recoomendations in the book "A guide to QTL mapping with R/qtl" (DOI 10.1007/978-0-387-92125-9)
+QTL mapping was perfomred with the R package'qtl2' v2_0.24. I followed the R/qtl2 User Guide (https://kbroman.org/qtl2/assets/vignettes/user_guide.html) and the recomendations in the book "A guide to QTL mapping with R/qtl" (DOI 10.1007/978-0-387-92125-9).
 
 # Data import
-First step was to import the data into R. I did this by creating a control file and then using ```read.cross2``` function to read the data into R.
+First step was to import the data into R. I did this by creating a control file and then using ```read.cross2``` function to read the data into R. I also read in map data as separate object and created a map object (pg.map) that has the maker name, chromosome, genetic position (cM) and physical position (bp).
 
 ```
 library(qtl2)
@@ -19,7 +19,10 @@ write_control_file("data_1a/control.yaml", crosstype = "haploid", geno_file = "g
                    covar_transposed = FALSE, phenocovar_transposed = FALSE,
                    description = NULL, comments = NULL, overwrite = TRUE)
 mapthis <-  read_cross2("data/control.yaml")
-
+pmap <- read.csv("data/pmap.csv")
+gmap <- read.csv("data/gmap.csv")
+pg.map <-  pmap
+pg.map$pos.cM <-gmap$pos
 ```
 Next I inserted pseudomarkers into positions in the grid betweeen real SNPs and then calcuated genotype probabilities.
 
@@ -37,16 +40,51 @@ out_pgL <- scan1(pr, pheno=mapthis$pheno[,-1], kinship = kinship_loco, addcovar 
 operm <- scan1perm(pr, pheno=mapthis$pheno[,-1], kinship = kinship_loco, addcovar = NULL, model = "normal", n_perm = 1000, cores=4)
 
 ```
-# Identify QTL peaks and intervals
+# Identify QTL peaks
 
-To identify signficance QTL peaks and thier intervals I looped through each phenotypic trait (ph.list - is a list of all phenotypic traits). The lod threshold (alpha = 0.01) was extracted from permuation results (operm) and then I used the ```find_peaks``` function to identify the QTL exceeding the lod threshold.
+To identify signficant QTL peaks and thier intervals I looped through each phenotypic trait (ph.list - is a list of all phenotypic traits). The lod threshold (alpha = 0.01) was extracted from permuation results (operm) and then I used the ```find_peaks``` function to identify the QTL exceeding the lod threshold.
 
 ```
 for (j in ph.list){
     out_pgL <- scan1(pr, pheno=mapthis$pheno[,j], kinship = kinship_loco, addcovar = NULL, model = "normal")
     lodT <- as.data.frame(summary(operm, alpha=0.01))[j]
-    
-  lod.pgL <- find_peaks(out_pgL, map, threshold=lodT , drop=1.5)
-  }
+    lod.pgL <- find_peaks(out_pgL, map, threshold=lodT , drop=1.5)
+    }
   
 ```
+
+# Calculate size of the QTL interval
+
+I calculated the Bayes Credible Interval (95%) around the QTL using 'bayes_int' function to identify the QTL interval. I looped through each peak listed in lod.pgL from previous step. I obtained the peak marker, the physical positions of the marker and the physical siye of the interval (bp, Kb) using a map with centimorgan distance and base pair positons for each marker (pg.map).
+
+```
+log.pgL.int <- NULL
+for (i in 1:length(lod.pgL$lodindex)) {
+      ll <- lod.pgL[i,]
+      name = ll$lodcolumnll$pheno <- j
+      chr.n <-  ll$chr 
+      pgmap.chr <-  droplevels(subset(pg.map, pg.map$chr==chr.n))
+      pgmap.chr$mk.dist <- abs(ll$pos-pgmap.chr$pos.cM)
+      mm <- subset(pgmap.chr, pgmap.chr$mk.dist==min(pgmap.chr$mk.dist))
+      ll$marker <- mm$marker[1]
+      ll$pos.bp <- min(mm$pos)
+      mbb <- subset(pgmap.chr, pgmap.chr$pos.cM>ll$ci_lo & pgmap.chr$pos.cM<ll$ci_hi)
+      ll$ci_mkr <- length(mbb$marker)
+      ll$ci_lo_bp <-min(mbb$pos)
+      ll$ci_hi_bp <- max(mbb$pos)
+      ll$ci.interval.kb <- (ll$ci_hi_bp-ll$ci_lo_bp)/1000
+      bb95  <-  bayes_int(out_pgL, map, lodcolumn=name, chr=chr.n, prob=0.95)
+      ll$b95.ci_lo <- bb95[1,1]
+      ll$b95.ci_hi <- bb95[1,3]
+      pgmap.chr <-  droplevels(subset(pg.map, pg.map$chr==chr.n))
+      mbd95 <- subset(pgmap.chr, pgmap.chr$pos.cM>ll$b95.ci_lo & pgmap.chr$pos.cM<ll$b95.ci_hi)
+      ll$bci95_mkr <- length(mbd95$marker)
+      ll$bci95_lo_bp <-min(mbd95$pos)
+      ll$bci95_hi_bp <- max(mbd95$pos)
+      ll$bci95.interval.kb <- (ll$bci95_hi_bp-ll$bci95_lo_bp)/1000
+      log.pgL.int <- rbind(log.pgL.int, ll)
+      write.csv(log.pgL.int, file=paste0("out/",j,".csv"))
+      }
+```
+
+# Identify the genes in that interval
