@@ -32,7 +32,7 @@ pr <- calc_genoprob(mapthis, map, error_prob=0.002)
 ```
 # Genome scan and permuation test
 
-Models that take into account the genetic covariance between indidivuals (i.e. including the kinship matrix in the model) can reduce the false discovery rate in QTL scans and outperform models that do not include this information in the model (https://link.springer.com/article/10.1007/s00122-011-1558-z). So to perform a QTL scan I used a linear mixed model and includded the kinship matrix as a random effect. The first step was to estimate the kinship matrix, the method 'loco' (“leave one chromosome out”) scans each chromosome using a kinship matrix that is calculated using data from all other chromosomes. After running the scan, I perfomed a premutation test to identify the signficance LOD threshold for a QTL peak.
+Models that take into account the genetic covariance between individuals (i.e. including the kinship matrix in the model) can reduce the false discovery rate in QTL scans and outperform models that do not include this information (https://link.springer.com/article/10.1007/s00122-011-1558-z). So to perform a QTL scan I used a linear mixed model and includded the kinship matrix as a random effect. The first step was to estimate the kinship matrix, the method 'loco' (“leave one chromosome out”) scans each chromosome using a kinship matrix that is calculated using data from all other chromosomes. After running the scan, I perfomed a premutation test to identify the signficance LOD threshold for a QTL peak.
 
 ```
 kinship_loco <- calc_kinship(pr, "loco", cores=4)
