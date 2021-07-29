@@ -10,7 +10,7 @@ fastqc path_to_seq_data/RNAseq_${name}.fastq.gz -o fastqc_out/
 done<RNAseq_sample.list
 
 ```
-## Triming
+## Triming raw reads
 I trimmed the raw RNA seq reads using ```trimmmomatic v0.35``
 ```
 trimmomatic PE -threads 2 -phred33 ${name}_R1.fastq.gz ${name}_R2.fastq.gz ${out}/${name}.R1.trim.fq.gz ${out}/logs/${name}.R1.un.fq.gz ${out}/${name}.R2.trim.fq.gz ${out}/logs/${name}.R2.un.fq.gz ILLUMINACLIP:${adaptor}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:50 > ${out}/logs/${name}.trimmo.log  2> ${out}/logs/${name}.trimmo.err
