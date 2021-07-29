@@ -14,10 +14,12 @@ fastqc path_to_seq_data/RNAseq_${name}.fastq.gz -o fastqc_out/
 done<RNAseq_sample.list
 
 ```
-Sequences were not trimmed based on recommendations from this paper
-https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
+## Triming
+We trimmed the raw RNA seq reads using ```trimmmomatic v0.35``
+```
+trimmomatic PE -threads 2 -phred33 ${name}_R1.fastq.gz ${name}_R2.fastq.gz ${out}/${name}.R1.trim.fq.gz ${out}/logs/${name}.R1.un.fq.gz ${out}/${name}.R2.trim.fq.gz ${out}/logs/${name}.R2.un.fq.gz ILLUMINACLIP:${adaptor}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:50 > ${out}/logs/${name}.trimmo.log  2> ${out}/logs/${name}.trimmo.err
 
-
+```
 ## Generate genome files for ```star``` 
 We ran STAR using the gff from Treindl et al 2021, accoding to the manual recommendations. As we useed a gff not a gtf we added the following option --sjdbGTFtagExonParentTranscript
 
