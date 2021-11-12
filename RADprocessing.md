@@ -12,7 +12,7 @@ trimmomatic PE -threads 2 -phred33 ${name}.R1.fastq.gz ${name}.R2.fastq.gz path_
 # Mapping with bwa to the reference genome
 Reads were mapped to the corresponding reference genome using ```bwa mem v0.7.17```. \
 1A5 genomefile: Zymoseptoria_tritici_st99ch_1a5_gca_900099495.ZT1A5_complete_assembly.dna.toplevel.fa.gz \
-3D7 genomefile: Zymoseptoria_tritici_st99ch_3d7_gca_900091695.Zt_ST99CH_3D7.dna.toplevel.fa.gz \
+3D7 genomefile: Zymoseptoria_tritici_st99ch_3d7_gca_900091695.Zt_ST99CH_3D7.dna.toplevel.fa.gz 
  
 ```
 bwa mem ${Ref} ${data}${name}_1.trim.fq.gz ${data}${name}_2.trim.fq.gz -M -R "@RG\tID:${name}\tSM:${name}\tPL:Illumina" -t ${proc} > ${TMPDIR}/${name}.sam
