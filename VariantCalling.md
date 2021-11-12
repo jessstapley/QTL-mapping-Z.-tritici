@@ -27,14 +27,14 @@ done
 
 These read Filters are automatically applied to the data by GATK before processing by HaplotypeCaller.
 
-HCMappingQualityFilter, minQual =20
-MalformedReadFilter - avoids crashing on malformed reads
-BadCigarFilter
-UnmappedReadFilter - only mapped reads
-NotPrimaryAlignmentFilter -This filter recognizes the SAM flag that identifies secondary alignments. It is intended to ensure that only records that are likely to be mapped in the right place, and therefore to be informative, will be used in analysis. To be clear, it does NOT filter out read records that are supplementary alignments.
-FailsVendorQualityCheckFilter - This filter recognizes the SAM flag corresponding to the vendor quality check.
-DuplicateReadFilter - This filter recognizes the SAM flag set by MarkDuplicates.
-MappingQualityUnavailableFilter - This filter is intended to ensure that only reads that are likely to be mapped in the right place, and therefore to be informative, will be used in analysis.
+HCMappingQualityFilter, minQual =20 \
+MalformedReadFilter - avoids crashing on malformed reads \
+BadCigarFilter \
+UnmappedReadFilter - only mapped reads \
+NotPrimaryAlignmentFilter -This filter recognizes the SAM flag that identifies secondary alignments. It is intended to ensure that only records that are likely to be mapped in the right place, and therefore to be informative, will be used in analysis. To be clear, it does NOT filter out read records that are supplementary alignments.\
+FailsVendorQualityCheckFilter - This filter recognizes the SAM flag corresponding to the vendor quality check.\
+DuplicateReadFilter - This filter recognizes the SAM flag set by MarkDuplicates.\
+MappingQualityUnavailableFilter - This filter is intended to ensure that only reads that are likely to be mapped in the right place, and therefore to be informative, will be used in analysis.\
 
 
 ## Combine individual gvcf files
