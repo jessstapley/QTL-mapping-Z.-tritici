@@ -55,7 +55,7 @@ for (j in ph.list){
 
 # Calculate size of the QTL interval
 
-I calculated the Bayes Credible Interval (95%) around the QTL using 'bayes_int' function to identify the QTL interval. I looped through each peak listed in lod.pgL from previous step. I obtained the peak marker, the physical positions of the marker and the physical siye of the interval (bp, Kb) using a map with centimorgan distance and base pair positons for each marker (pg.map).
+I calculated the Bayes Credible Interval (95%) around the QTL using 'bayes_int' function to identify the QTL interval. I looped through each peak listed in lod.pgL from previous step. I obtained the peak marker, the physical positions of the marker and the physical size of the interval (bp, Kb) using a map with centimorgan distance and base pair positons for each marker (pg.map).
 
 ```
 log.pgL.int <- NULL
