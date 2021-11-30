@@ -1,7 +1,6 @@
 # RAD tag sequence processing
 
-This doucment describes the steps for read filtering, read mapping and variant calling for RAD tag sequence data from progeny of two QTl mapping crosses (1A5x1E4 and 3D7x3D1). 
-NB These command lines are snipets from submission scripts optimised for our HPC server, they provide command lines and the arguments used. They will not run 'as is'
+This doucment describes the steps for read filtering, read mapping and variant calling for RAD tag sequence data from progeny of two QTL mapping crosses (1A5x1E4 and 3D7x3D1). NB These command lines are snipets from submission scripts optimised for our HPC server, they provide command lines and the arguments used. They will not run 'as is'
 
 # Adaptor removal and trimming
 Reads were trimmed with ```trimmomatic v0.35``` to remove adaptor sequence and low quality sequence. Reads were trimmed if the base quality at the beginning or end of the read was <3, and only reads of more than 50 bp were retained.
