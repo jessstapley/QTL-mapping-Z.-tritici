@@ -1,0 +1,28 @@
+# Phenotypic data trait names explained
+# PDA: control, growth media potato dextrose agar (PDA)
+# KCl: KCl treatment, growth media potato dextrose agar (PDA) with potassium chloride (0.75M)
+
+ZZ_18C_K75_12dpi_mnWArea: mean radius at 12 dpi in KCl
+ZZ_18C_PDA_12dpi_mnWArea: mean radius at 12 dpi in control
+ZZ_18C_K75_8dpi_mnWArea: mean radius at 8 dpi in KCl
+ZZ_18C_PDA_8dpi_mnWArea: mean radius at 8 dpi in control
+
+ZZ_18C_K75_12dpi_mnGrey: mean grey value at 12 dpi in KCl
+ZZ_18C_PDA_12dpi_mnGrey: mean grey value at 12 dpi in control
+ZZ_18C_K75_8dpi_mnGrey: mean grey value at 8 dpi in KCl
+ZZ_18C_PDA_8dpi_mnGrey: mean grey value at 8 dpi in control
+
+ZZ_18C_pdaKCl_08dpi_irsens: KCl-tolerance in radius at 8 dpi = (mean Radius at 8 dpi in KCl/mean Radius at 8 dpi in control)
+ZZ_18C_pdaKCl_12dpi_irsens: KCl-tolerance in radius at 12 dpi = (mean Radius at 8 dpi in KCl/mean Radius at 12 dpi in control)
+ZZ_18C_pdaKCl_08dpi_imsens: KCl-tolerance in melanin at 8 dpi = (mean Grey value at 8 dpi in KCl/mean Grey value at 8 dpi in control)
+ZZ_18C_pdaKCl_12dpi_imsens: KCl-tolerance in melanin at 12 dpi = (mean Grey value at 8 dpi in KCl/mean Grey value at 12 dpi in control)
+
+
+ZZ_18C_K75_0812dpi_growth: Growth rate in KCl = (mean Radius at 12 dpi in KCl - mean Radius at 8 dpi in KCl)/4
+ZZ_18C_pda_0812dpi_growth: Growth rate in control = (mean Radius at 12 dpi in control - mean Radius at 8 dpi in control)/4
+ZZ_18C_pdaKCl_0812dpi_gsens: KCl-tolerance in growth (Growth rate in KCl/Growth rate in control)
+
+ZZ_18C_KCl_0812dpi_grey: Melanisation rate in KCl = (mean grey value at 12 dpi in KCl - mean grea value at 8 dpi in KCl)/4
+ZZ_18C_pda_0812dpi_grey: Melanisation rate in control = (mean grey value at 12 dpi in control - mean grea value at 8 dpi in conrol)/4
+ZZ_18C_pdaKCl_0812dpi_msens: KCl-tolerance in Melanisation (Melanisation rate in KCl/Melanisation rate in control)
+
