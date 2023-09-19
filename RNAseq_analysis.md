@@ -67,7 +67,7 @@ write.table(counts, file="Allcounts", quote=FALSE)
 
 ## Identify differentially expressed genes using R
 
-I used R (v3.6.0) package EdgeR to identify genes that were differentially expressed between strains. I first plotted the data to check for outliers, using a clustering plot and a PCA. 
+I used R (v3.6.0) package EdgeR to identify genes that were differentially expressed between strains. All scripts, input and output files are in the folder 'rna_analysis'. I first plotted the data to check for outliers, using a clustering plot and a PCA. 
 
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
